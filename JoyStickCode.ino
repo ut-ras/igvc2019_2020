@@ -21,20 +21,16 @@ void setup() {
 }
 void loop()
 {
-  value_zero = analogRead(analogInput_zero)/103;
-  value_one = analogRead(analogInput_one)/103;
+  value_zero = analogRead(analogInput_zero);
+  value_one = analogRead(analogInput_one);
     //Serial.println(value_zero);
-  Serial.print(value_zero);
-  Serial.print(",");
-  Serial.print(value_one);
-  Serial.print(",");
-  Serial.print(digitalRead(up));
-  Serial.print(",");
-  Serial.print(digitalRead(down));
-  Serial.print(",");
-  Serial.print(digitalRead(left));
-  Serial.print(",");
+  Serial.println(value_zero);
+  Serial.println(value_one);
+  Serial.println(digitalRead(up));
+  Serial.println(digitalRead(down));
+  Serial.println(digitalRead(left));
   Serial.println(digitalRead(right));
+  delay(200);
 
   
   
