@@ -1,0 +1,14 @@
+----------README-----------
+Sequence to calibrate the camera:
+  - Take images of a chess board with 'CaptureImages.py'
+  - Calculate parameters with 'CalibrateCamera.py'. The parameters are stored automatically in the 'parameters.txt' file.
+  - Use 'Undistort.py' to undistort an image using these parameters and save the new image. Then we should apply all the algorithms to detect the lines and do the inerse perspective transformation.
+--------
+The camera that we were using didn't distort too much the images, so undistorting them may not be very useful. Instead, the line detection algorithms could be used directly. However, some of the parameters stored in the parameters.txt file may still be necessary to do the inverse persective transformation.
+--------
+Then we should apply the transformations and algorithms to detect the lines. The code to do this is in the file 'LineDetection.py'. THis file was created using the tutorial at https://medium.com/@mrhwick/simple-lane-detection-with-opencv-bfeb6ae54ec0 . Therefore, there are several parameters that need to be better adjusted to solve our problem, like the parameters used in the cv2.Canny() and the cv2.HoughLinesP() functions. Also, from lines 88 to 136, the lines detected are filtered to find one at each side of the car. In the competition, we may find situations when this doesn't happen, so the filtering algorithm may need to be changed.
+--------
+The next step is to apply the inverse perspective trnsformation. Several option were considered to do this:
+  1- Use some OpenCV built-in functions to transform the whole image. We weren't able to make this work, and it would have been more demanding in terms of computational time than the following options. Also, this algorithm should be executed anywhere previous to the Hough lines detection.
+  2- Use the pinhole camera model to get the transform equations as a function of the camera parameters and the height and tilt angle of the camera. Then, transform the coordinates of the lines output by 'LineDetection.py'.
+  3- Use a picture taken with the camera in its final position (height and tilt angle). Then, using some straight lines in the image as reference, manually select four points that will mark out the area that will be transformed. Use the getPerspectiveTransform() function to calculate the transformation matrix. Since this matrix will not change if the position of the camera doesn't change, it can be used in the final script to transform the line pixel coordinates output by 'LineDetection.py' to the real world top-view dimensions. The calculation of this matrix is done in 'TransformPerspective.py'
